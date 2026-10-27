@@ -27,7 +27,7 @@ Training takes about 4 minutes on an RTX 4060 laptop GPU.
 | Real test images | 0.009 | 2.29 |
 
 ### Effect of beta
-Same setup, only the KL weight changes. BCE and KL are per test image.
+Same setup, only the KL weight changes. BCE and KL are in nats per test image (summed over the 128x128 pixels). Since the pixels are gray and not binary, the BCE can't go below the pixel entropy, which is about 9229 nats on the test set, so that is the floor and not 0.
 
 ```
 python train.py --beta 0.5 --out results/beta_0.5

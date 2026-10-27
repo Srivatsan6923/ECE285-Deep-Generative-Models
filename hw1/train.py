@@ -106,6 +106,7 @@ axes[2].set_title("KL divergence")
 for ax in axes:
     ax.set_xlabel("epoch")
     ax.grid(alpha=0.3)
+axes[0].set_ylabel("nats per image")
 axes[0].legend()
 plt.tight_layout()
 plt.savefig(f"{args.out}/loss_curves.pdf")
