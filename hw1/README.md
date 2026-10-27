@@ -26,5 +26,22 @@ Training takes about 4 minutes on an RTX 4060 laptop GPU.
 | VAE reconstructions | 0.212 | 1.99 |
 | Real test images | 0.009 | 2.29 |
 
+### Effect of beta
+Same setup, only the KL weight changes. BCE and KL are per test image.
+
+```
+python train.py --beta 0.5 --out results/beta_0.5
+python evaluate.py --out results/beta_0.5
+```
+
+| beta | BCE | KL | FID | IS |
+|---|---|---|---|---|
+| 0.5 | 9353 | 83.7 | 0.162 | 2.20 |
+| 1 | 9370 | 55.4 | 0.178 | 1.93 |
+| 2 | 9398 | 36.4 | 0.193 | 1.84 |
+| 4 | 9433 | 23.7 | 0.223 | 1.77 |
+
+Samples for beta = 1:
+
 ![samples](results/samples_grid.png)
 ![loss](results/loss_curves.png)
