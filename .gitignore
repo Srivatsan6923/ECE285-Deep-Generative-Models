@@ -1,5 +1,9 @@
+*.zip
+Homework_*
+
+# per homework
 data/
 cache/
-results/vae.pt
-__pycache__/
 report/
+*.pt
+__pycache__/
