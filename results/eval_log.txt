@@ -1,0 +1,3 @@
+samples: FID = 0.1777, IS = 1.934
+recon: FID = 0.2122, IS = 1.993
+real_test: FID = 0.0095, IS = 2.290
