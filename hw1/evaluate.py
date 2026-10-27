@@ -1,6 +1,7 @@
 # FID and IS with pytorch-ignite, based on
 # https://pytorch-ignite.ai/blog/gan-evaluation-with-fid-and-is/
 import json
+import argparse
 import torch
 import torch.nn.functional as F
 from ignite.engine import Engine
@@ -9,13 +10,17 @@ from torchvision.utils import save_image
 
 from vae import VAE, load_data
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--out", default="results")
+args = parser.parse_args()
+
 torch.manual_seed(0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
 n_images = 2000
 batch_size = 50
 
 model = VAE(128).to(device)
-model.load_state_dict(torch.load("results/vae.pt", map_location=device))
+model.load_state_dict(torch.load(f"{args.out}/vae.pt", map_location=device))
 model.eval()
 
 train_x = load_data("data/chest_xray", "train")
@@ -67,9 +72,9 @@ results["real_test"] = get_fid_is(test_x[:600], real_x[:600])
 for name, (fid, inc) in results.items():
     print(f"{name}: FID = {fid:.4f}, IS = {inc:.3f}")
 
-with open("results/metrics.json", "w") as f:
+with open(f"{args.out}/metrics.json", "w") as f:
     json.dump(results, f, indent=2)
 
 # wide grid of samples for the report
 torch.manual_seed(1)
-save_image(model.sample(48, device), "results/samples_grid.png", nrow=16, padding=1)
+save_image(model.sample(48, device), f"{args.out}/samples_grid.png", nrow=16, padding=1)

@@ -17,11 +17,12 @@ parser.add_argument("--epochs", type=int, default=100)
 parser.add_argument("--batch_size", type=int, default=64)
 parser.add_argument("--lr", type=float, default=1e-3)
 parser.add_argument("--beta", type=float, default=1.0)
+parser.add_argument("--out", default="results")
 args = parser.parse_args()
 
 torch.manual_seed(0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
-os.makedirs("results", exist_ok=True)
+os.makedirs(args.out, exist_ok=True)
 
 train_x = load_data(args.data, "train")
 test_x = load_data(args.data, "test")
@@ -79,15 +80,15 @@ for epoch in range(1, args.epochs + 1):
 
     if epoch == 1 or epoch % 10 == 0:
         with torch.no_grad():
-            save_image(model.decode(fixed_z), f"results/samples_ep{epoch:03d}.png", nrow=8)
+            save_image(model.decode(fixed_z), f"{args.out}/samples_ep{epoch:03d}.png", nrow=8)
 
-torch.save(model.state_dict(), "results/vae.pt")
+torch.save(model.state_dict(), f"{args.out}/vae.pt")
 
 history = {
     "train_loss": train_loss, "train_bce": train_bce, "train_kl": train_kl,
     "test_loss": test_loss, "test_bce": test_bce, "test_kl": test_kl,
 }
-with open("results/history.json", "w") as f:
+with open(f"{args.out}/history.json", "w") as f:
     json.dump(history, f)
 
 # loss curves
@@ -107,13 +108,13 @@ for ax in axes:
     ax.grid(alpha=0.3)
 axes[0].legend()
 plt.tight_layout()
-plt.savefig("results/loss_curves.pdf")
-plt.savefig("results/loss_curves.png", dpi=150)
+plt.savefig(f"{args.out}/loss_curves.pdf")
+plt.savefig(f"{args.out}/loss_curves.png", dpi=150)
 
 # final samples and some reconstructions from the test set
 model.eval()
-save_image(model.sample(64, device), "results/samples_final.png", nrow=8)
+save_image(model.sample(64, device), f"{args.out}/samples_final.png", nrow=8)
 with torch.no_grad():
     x = test_x[torch.randperm(len(test_x))[:8]].to(device)
     x_recon, _, _ = model(x)
-    save_image(torch.cat([x, x_recon]), "results/recon.png", nrow=8)
+    save_image(torch.cat([x, x_recon]), f"{args.out}/recon.png", nrow=8)
