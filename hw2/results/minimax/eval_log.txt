@@ -1,0 +1,9 @@
+epoch 1: FID = 0.1607, FID (pool) = 400.35, IS = 1.064
+epoch 5: FID = 0.1550, FID (pool) = 402.45, IS = 1.062
+epoch 10: FID = 0.1526, FID (pool) = 403.77, IS = 1.045
+epoch 15: FID = 0.1527, FID (pool) = 403.46, IS = 1.046
+epoch 20: FID = 0.1527, FID (pool) = 403.36, IS = 1.045
+epoch 25: FID = 0.1525, FID (pool) = 403.55, IS = 1.045
+epoch 30: FID = 0.1524, FID (pool) = 403.59, IS = 1.046
+real: FID = 0.0154, FID (pool) = 11.71, IS = 7.506
+noise: FID = 0.1260, FID (pool) = 332.60, IS = 1.088

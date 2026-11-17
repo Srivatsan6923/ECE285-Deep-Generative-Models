@@ -1,5 +1,6 @@
 *.zip
 Homework_*
+ece285_hw*.pdf
 
 # per homework
 data/
